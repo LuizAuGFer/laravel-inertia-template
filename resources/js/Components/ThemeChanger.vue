@@ -1,5 +1,5 @@
 <style scoped>
-/* From Uiverse.io by RiccardoRapelli */ 
+/* From Uiverse.io by RiccardoRapelli */
 .switch {
   position: relative;
   display: inline-block;
@@ -39,15 +39,15 @@
   transition: 0.4s;
 }
 
-#input:checked + .slider {
+#input:checked+.slider {
   background-color: black;
 }
 
-#input:focus + .slider {
+#input:focus+.slider {
   box-shadow: 0 0 1px #2196f3;
 }
 
-#input:checked + .slider .sun-moon {
+#input:checked+.slider .sun-moon {
   -webkit-transform: translateX(26px);
   -ms-transform: translateX(26px);
   transform: translateX(26px);
@@ -62,7 +62,7 @@
   fill: gray;
 }
 
-#input:checked + .slider .sun-moon .moon-dot {
+#input:checked+.slider .sun-moon .moon-dot {
   opacity: 1;
 }
 
@@ -221,7 +221,7 @@
   animation-iteration-count: infinite;
 }
 
-#input:checked + .slider .stars {
+#input:checked+.slider .stars {
   -webkit-transform: translateY(0);
   -ms-transform: translateY(0);
   transform: translateY(0);
@@ -272,99 +272,104 @@
     transform: scale(1);
   }
 }
-
 </style>
 
 <script setup>
 
-import { ref } from 'vue';
+import { onMounted, ref, watch } from 'vue'
 
-const isDarkMode = ref(true);
-const body = document.querySelector('body');
+const isDarkMode = ref(localStorage.getItem('theme') === 'dark')
+const body = document.querySelector('body')
+const isChecked = ref(false)
+
 function themeChange() {
+  isDarkMode.value = !isDarkMode.value
+  const theme = isDarkMode.value ? 'dark' : 'light'
 
-        // Alterna entre dark e light no atributo data-bs-theme do body
-    const body = document.querySelector('body');
-    if (isDarkMode.value) {
-        body.setAttribute('data-bs-theme', 'light');
-    } else {
-        body.setAttribute('data-bs-theme', 'dark');
-    }
-
-    // Alterna o estado de isDarkMode
-    isDarkMode.value = !isDarkMode.value;
-    
+  body.setAttribute('data-bs-theme', theme)
+  localStorage.setItem('theme', theme)
 }
+
+onMounted(() => {
+  const savedTheme = localStorage.getItem('theme') || 'light'
+  isDarkMode.value = savedTheme === 'dark'
+  body.setAttribute('data-bs-theme', savedTheme)
+})
+
+if(localStorage.getItem('theme') === 'light') {
+  isChecked.value = isChecked.value;
+}
+console.log(localStorage.getItem('theme'));
 </script>
 
 <template>
-<!-- From Uiverse.io by RiccardoRapelli --> 
-<label class="switch">
-  <input id="input" @click="themeChange" type="checkbox" checked="darkTheme" />
-  <div class="slider round">
-    <div class="sun-moon">
-      <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
-      <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
-      <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
-      <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
-      <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
-      <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
+  <!-- From Uiverse.io by RiccardoRapelli -->
+  <label class="switch">
+    <input id="input" @click="themeChange" type="checkbox" checked="darkTheme" />
+    <div class="slider round">
+      <div class="sun-moon">
+        <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+        <svg id="moon-dot-2" class="moon-dot" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+        <svg id="moon-dot-3" class="moon-dot" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+        <svg id="light-ray-1" class="light-ray" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+        <svg id="light-ray-2" class="light-ray" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+        <svg id="light-ray-3" class="light-ray" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
 
-      <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
-      <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
-      <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
-      <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
-      <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
-      <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
-        <circle cx="50" cy="50" r="50"></circle>
-      </svg>
+        <svg id="cloud-1" class="cloud-dark" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+        <svg id="cloud-2" class="cloud-dark" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+        <svg id="cloud-3" class="cloud-dark" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+        <svg id="cloud-4" class="cloud-light" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+        <svg id="cloud-5" class="cloud-light" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+        <svg id="cloud-6" class="cloud-light" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="50"></circle>
+        </svg>
+      </div>
+      <div class="stars">
+        <svg id="star-1" class="star" viewBox="0 0 20 20">
+          <path
+            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+          </path>
+        </svg>
+        <svg id="star-2" class="star" viewBox="0 0 20 20">
+          <path
+            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+          </path>
+        </svg>
+        <svg id="star-3" class="star" viewBox="0 0 20 20">
+          <path
+            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+          </path>
+        </svg>
+        <svg id="star-4" class="star" viewBox="0 0 20 20">
+          <path
+            d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z">
+          </path>
+        </svg>
+      </div>
     </div>
-    <div class="stars">
-      <svg id="star-1" class="star" viewBox="0 0 20 20">
-        <path
-          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-        ></path>
-      </svg>
-      <svg id="star-2" class="star" viewBox="0 0 20 20">
-        <path
-          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-        ></path>
-      </svg>
-      <svg id="star-3" class="star" viewBox="0 0 20 20">
-        <path
-          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-        ></path>
-      </svg>
-      <svg id="star-4" class="star" viewBox="0 0 20 20">
-        <path
-          d="M 0 10 C 10 10,10 10 ,0 10 C 10 10 , 10 10 , 10 20 C 10 10 , 10 10 , 20 10 C 10 10 , 10 10 , 10 0 C 10 10,10 10 ,0 10 Z"
-        ></path>
-      </svg>
-    </div>
-  </div>
-</label>
+  </label>
 
 
 </template>

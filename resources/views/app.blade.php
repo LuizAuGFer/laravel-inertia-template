@@ -20,5 +20,4 @@
     <script src="{{ asset('js/adminlte.js') }}"></script>
 </body>
 <script src="{{ asset('js/bootstrap/bootstrap.bundle.min.js') }}"></script>
-{{-- <script src="{{ asset('js/popper.min.js') }}"></script> --}}
 </html>
