@@ -280,7 +280,7 @@ import { onMounted, ref, watch } from 'vue'
 
 const isDarkMode = ref(localStorage.getItem('theme') === 'dark')
 const body = document.querySelector('body')
-const isChecked = ref(false)
+const isChecked = ref(true)
 
 function themeChange() {
   isDarkMode.value = !isDarkMode.value
@@ -291,21 +291,17 @@ function themeChange() {
 }
 
 onMounted(() => {
-  const savedTheme = localStorage.getItem('theme') || 'light'
-  isDarkMode.value = savedTheme === 'dark'
-  body.setAttribute('data-bs-theme', savedTheme)
+  const savedTheme = localStorage.getItem('theme') || 'light';
+  isDarkMode.value = savedTheme === 'dark';
+  body.setAttribute('data-bs-theme', savedTheme);
+  isChecked.value = localStorage.getItem('theme') !== 'light';
 })
-
-if(localStorage.getItem('theme') === 'light') {
-  isChecked.value = isChecked.value;
-}
-console.log(localStorage.getItem('theme'));
 </script>
 
 <template>
   <!-- From Uiverse.io by RiccardoRapelli -->
   <label class="switch">
-    <input id="input" @click="themeChange" type="checkbox" checked="darkTheme" />
+    <input id="input" @click="themeChange" type="checkbox" v-model="isChecked" checked="darkTheme" />
     <div class="slider round">
       <div class="sun-moon">
         <svg id="moon-dot-1" class="moon-dot" viewBox="0 0 100 100">
